@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 
 // STEP 4 - import the button and display components
 // Don't forget to import any extra css/scss files you build into the correct component
@@ -17,15 +17,24 @@ function App() {
   // the "5" button, or the operator if they click one of those buttons) and then call your setter function to update state.
   // Don't forget to pass the functions (and any additional data needed) to the components as props
 
+  // the display needs to be set in a way where it can change depending on what buttons are pressed
+  const [displayState, setDisplayState] = useState(0); // initial value of the calculator should be 0
+
+  // Here i am trying to make a function that will be able to grab a number. The number it needs
+  // to grab is whatever number the user clicks on the calculator
+  const GrabNumber = (number) => {
+    setDisplayState(displayState + number)
+  };
+
   return (
     <div className="container">
       <Logo />
-      <Display />
+      <Display currentValue={displayState}/>
       <div className="App">
         {/* STEP 4 - Render your components here and be sure to properly import/export all files */}
         <div className="left-section">
           <Specials />
-          <Numbers />
+          <Numbers clickFunction={GrabNumber}/>
         </div>
         
         <div className="right-section">
