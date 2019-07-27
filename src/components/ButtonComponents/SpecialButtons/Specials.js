@@ -8,7 +8,7 @@ import data from "../../../data.js";
 
 const specialsArray = data.specials;
 
-const Specials = () => {
+const Specials = (props) => {
   // STEP 2 - add the imported data to state
   const [specialsState, setSpecialsState] = useState(specialsArray); 
 
@@ -18,7 +18,7 @@ const Specials = () => {
        component matching the name on the provided file. Pass
        it any props needed by the child component*/}
        {specialsArray.map(specialCharacter => {
-         return <SpecialButton special={specialCharacter}/>
+         return <SpecialButton special={specialCharacter} clickFunction={props.clickFunction}/>
        })}
     </div>
   );

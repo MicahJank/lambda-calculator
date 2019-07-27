@@ -22,12 +22,25 @@ function App() {
 
   // Here i am trying to make a function that will be able to grab a number. The number it needs
   // to grab is whatever number the user clicks on the calculator
-  const GrabNumber = (number) => {
-    console.log(displayState.length);
+  const grabNumber = (number) => {
     displayState !== '0' ? setDisplayState(displayState + number) : setDisplayState(number);
    if (displayState.length > 14) {
      setDisplayState('ERR'); // max character limit is 14 so if a user goes over that an Error is displayed
    }
+  };
+
+  // grabSpecial is a function that should be called in SpecialButton.js. It will grab the value of
+  // whatever 'special' character (i.e. 'C', '+/-' or '%') and depending on which one was grabbed will
+  // perform a different set of actions and show the result in the displayState
+  const grabSpecial = (special) => {
+    if (special === 'C') {
+      clear();
+    }
+  };
+
+  // clear the display function
+  const clear = () => {
+    setDisplayState('0');
   };
 
   return (
@@ -36,8 +49,8 @@ function App() {
       <Display currentValue={displayState}/>
       <div className="App">
         <div className="left-section">
-          <Specials />
-          <Numbers clickFunction={GrabNumber} displayState={displayState}/>
+          <Specials clickFunction={grabSpecial}/>
+          <Numbers clickFunction={grabNumber} displayState={displayState}/>
         </div>
         
         <div className="right-section">
