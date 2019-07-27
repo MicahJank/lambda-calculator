@@ -18,12 +18,16 @@ function App() {
   // Don't forget to pass the functions (and any additional data needed) to the components as props
 
   // the display needs to be set in a way where it can change depending on what buttons are pressed
-  const [displayState, setDisplayState] = useState(0); // initial value of the calculator should be 0
+  const [displayState, setDisplayState] = useState('0'); // initial value of the calculator should be 0
 
   // Here i am trying to make a function that will be able to grab a number. The number it needs
   // to grab is whatever number the user clicks on the calculator
   const GrabNumber = (number) => {
-    setDisplayState(displayState + number)
+    console.log(displayState.length);
+    displayState !== '0' ? setDisplayState(displayState + number) : setDisplayState(number);
+   if (displayState.length > 14) {
+     setDisplayState('ERR');
+   }
   };
 
   return (
@@ -34,7 +38,7 @@ function App() {
         {/* STEP 4 - Render your components here and be sure to properly import/export all files */}
         <div className="left-section">
           <Specials />
-          <Numbers clickFunction={GrabNumber}/>
+          <Numbers clickFunction={GrabNumber} displayState={displayState}/>
         </div>
         
         <div className="right-section">
