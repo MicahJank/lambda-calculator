@@ -3,7 +3,7 @@ import React from "react";
 const NumberButton = (props) => {
 
   // the onClick should only work if the display doesnt have an error
-  // when an error is present and a use clicks a button they will be prompted with an alert
+  // when an error is present and a user clicks a button they will be prompted with an alert
   // telling them to clear the display before continuing
   const clickHandler = () => {
     if (props.displayState !== 'ERR') {

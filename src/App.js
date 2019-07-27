@@ -26,7 +26,7 @@ function App() {
     console.log(displayState.length);
     displayState !== '0' ? setDisplayState(displayState + number) : setDisplayState(number);
    if (displayState.length > 14) {
-     setDisplayState('ERR');
+     setDisplayState('ERR'); // max character limit is 14 so if a user goes over that an Error is displayed
    }
   };
 
@@ -35,7 +35,6 @@ function App() {
       <Logo />
       <Display currentValue={displayState}/>
       <div className="App">
-        {/* STEP 4 - Render your components here and be sure to properly import/export all files */}
         <div className="left-section">
           <Specials />
           <Numbers clickFunction={GrabNumber} displayState={displayState}/>
