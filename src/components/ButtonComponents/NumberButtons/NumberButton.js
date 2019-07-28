@@ -8,6 +8,7 @@ const NumberButton = (props) => {
   const clickHandler = () => {
     if (props.displayState !== 'ERR') {
       props.clickFunction(props.number);
+      props.setCalculatingState(false); // the calculating state should ONLY be true when the user has pressed an operator button
     } else {
       alert('ERROR: Please clear display.');
     }

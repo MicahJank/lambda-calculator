@@ -8,8 +8,6 @@ import data from "../../../data.js";
 
 const operatorsArray = data.operators;
 
-const expression = '';
-
 const Operators = (props) => {
   // STEP 2 - add the imported data to state
   const [operatorState, setOperatorState] = useState(operatorsArray);
@@ -19,7 +17,7 @@ const Operators = (props) => {
        component matching the name on the provided file. Pass
        it any props needed by the child component*/}
        {operatorsArray.map(operatorObj => {
-         return <OperatorButton operator={operatorObj.value} displayState={props.displayState} clickFunction={props.clickFunction} expression={''}/>
+         return <OperatorButton operator={operatorObj.value} displayState={props.displayState} clickFunction={props.clickFunction} setCalculatingState={props.setCalculatingState} />
        })}
     </div>
   );

@@ -13,10 +13,20 @@ function App() {
   // the display needs to be set in a way where it can change depending on what buttons are pressed
   const [displayState, setDisplayState] = useState('0'); // initial value of the calculator should be 0
 
+  // these states will determine if the calculator is in the process of adding numbers together or not.
+  // in other words different states should be set depending on whether the user has just pressed
+  // a 'add' button 'minus' button 'multiplication' button and so on. When user is simply pressing numbers or
+  // using the = operator to get a total its state should be false since it is not calculating anything
+  const [calculatingState, setCalculatingState] = useState(false);
+
   // Here i am trying to make a function that will be able to grab a number. The number it needs
   // to grab is whatever number the user clicks on the calculator
   const grabNumber = (number) => {
+    if (calculatingState) {
+      setDisplayState(number); 
+    } else {
     displayState !== '0' ? setDisplayState(displayState + number) : setDisplayState(number);
+    }
    if (displayState.length > 14) {
      setDisplayState('ERR'); // max character limit is 14 so if a user goes over that an Error is displayed
    }
@@ -58,12 +68,12 @@ function App() {
       <Display currentValue={displayState}/>
       <div className="App">
         <div className="left-section">
-          <Specials clickFunction={grabSpecial}/>
-          <Numbers calculate={calculate} clickFunction={grabNumber} displayState={displayState}/>
+          <Specials clickFunction={grabSpecial} setCalculatingState={setCalculatingState}/>
+          <Numbers calculate={calculate} clickFunction={grabNumber} displayState={displayState} setCalculatingState={setCalculatingState} />
         </div>
         
         <div className="right-section">
-         <Operators displayState={displayState} clickFunction={calculate}/>
+         <Operators displayState={displayState} clickFunction={calculate} setCalculatingState={setCalculatingState} />
         </div>
       </div>
     </div>
