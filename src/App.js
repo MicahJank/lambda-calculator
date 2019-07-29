@@ -1,23 +1,80 @@
-import React from "react";
-import "./App.css";
-// STEP 4 - import the button and display components
-// Don't forget to import any extra css/scss files you build into the correct component
+import React, {useState, useEffect} from "react";
+
+import Numbers from "./components/ButtonComponents/NumberButtons/Numbers.js";
+import Operators from "./components/ButtonComponents/OperatorButtons/Operators.js";
+import Specials from "./components/ButtonComponents/SpecialButtons/Specials.js";
 
 // Logo has already been provided for you. Do the same for the remaining components
 import Logo from "./components/DisplayComponents/Logo";
-
+import Display from "./components/DisplayComponents/Display.js";
+import "./App.css";
 function App() {
-  // STEP 5 - After you get the components displaying using the provided data file, write your state hooks here.
-  // Once the state hooks are in place write some functions to hold data in state and update that data depending on what it needs to be doing
-  // Your functions should accept a parameter of the the item data being displayed to the DOM (ie - should recieve 5 if the user clicks on
-  // the "5" button, or the operator if they click one of those buttons) and then call your setter function to update state.
-  // Don't forget to pass the functions (and any additional data needed) to the components as props
+
+  // the display needs to be set in a way where it can change depending on what buttons are pressed
+  const [displayState, setDisplayState] = useState('0'); // initial value of the calculator should be 0
+
+  // these states will determine if the calculator is in the process of adding numbers together or not.
+  // in other words different states should be set depending on whether the user has just pressed
+  // a 'add' button 'minus' button 'multiplication' button and so on. When user is simply pressing numbers or
+  // using the = operator to get a total its state should be false since it is not calculating anything
+  const [calculatingState, setCalculatingState] = useState(false);
+
+  // Here i am trying to make a function that will be able to grab a number. The number it needs
+  // to grab is whatever number the user clicks on the calculator
+  const grabNumber = (number) => {
+    if (calculatingState) {
+      setDisplayState(number); 
+    } else {
+    displayState !== '0' ? setDisplayState(displayState + number) : setDisplayState(number);
+    }
+   if (displayState.length > 14) {
+     setDisplayState('ERR'); // max character limit is 14 so if a user goes over that an Error is displayed
+   }
+  };
+
+  // grabSpecial is a function that should be called in SpecialButton.js. It will grab the value of
+  // whatever 'special' character (i.e. 'C', '+/-' or '%') and depending on which one was grabbed will
+  // perform a different set of actions and show the result in the displayState
+  const grabSpecial = (special) => {
+    if (special === 'C') {
+      clear();
+    } else if (special === '+/-') {
+      toggleNegative();
+    }
+  };
+
+  // clear the display function
+  const clear = () => {
+    setDisplayState('0');
+  };
+
+  // a function that changes the display value to either positive or negative
+  const toggleNegative = () => {
+    const value = (-(Number(displayState))).toString();
+    setDisplayState(value);
+  };
+
+  // calculate will take in a string mathmatical expression ('number + number') and calculate it
+  // it will then set the display state to the result of that calculation
+  const calculate = (expression) => {
+    const calculation = eval(expression);
+    setDisplayState(calculation);
+  };
+ 
 
   return (
     <div className="container">
       <Logo />
+      <Display currentValue={displayState}/>
       <div className="App">
-        {/* STEP 4 - Render your components here and be sure to properly import/export all files */}
+        <div className="left-section">
+          <Specials clickFunction={grabSpecial} setCalculatingState={setCalculatingState}/>
+          <Numbers calculate={calculate} clickFunction={grabNumber} displayState={displayState} setCalculatingState={setCalculatingState} />
+        </div>
+        
+        <div className="right-section">
+         <Operators displayState={displayState} clickFunction={calculate} setCalculatingState={setCalculatingState} />
+        </div>
       </div>
     </div>
   );
